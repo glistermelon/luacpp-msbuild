@@ -29,6 +29,10 @@
 #include "LuaContext.hpp"
 #include "LuaVersion.hpp"
 
+// stupid windows wide string file path
+#include <windows.h>
+#include <stringapiset.h>
+
 using namespace LuaCpp;
 using namespace LuaCpp::Engine;
 using namespace LuaCpp::Registry;
@@ -103,6 +107,14 @@ void LuaContext::CompileFolder(const std::string &path, const std::string &prefi
 	CompileFolder(path, prefix, false);
 }
 
+static std::string thin_str(std::wstring wstr) {
+	if (wstr.empty()) return std::string();
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+	std::string strTo(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+	return strTo;
+}
+
 void LuaContext::CompileFolder(const std::string &path, const std::string &prefix, bool recompile) {
 	for (const auto &entry : std::filesystem::directory_iterator(path)) {
 		if (entry.is_regular_file()){
@@ -110,9 +122,9 @@ void LuaContext::CompileFolder(const std::string &path, const std::string &prefi
 			if (path.extension() == ".lua") {
 				try {
 					if (prefix == "") {
-						CompileFile(path.stem().native() ,path, recompile);
+						CompileFile(thin_str(path.stem().native()) ,path.string(), recompile);
 					} else {
-						CompileFile(prefix+"."+path.stem().native() ,path, recompile);
+						CompileFile(prefix+"."+ thin_str(path.stem().native()) ,path.string(), recompile);
 					}
 				} catch (std::logic_error &e) {
 				}

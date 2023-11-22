@@ -25,6 +25,10 @@
 #ifndef LUACPP_LUA_HPP
 #define LUACPP_LUA_HPP
 
+#define or ||
+#define and &&
+#include <string>
+
 #ifdef __cplusplus
   extern "C" {
      #include "lua.h"
