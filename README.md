@@ -1,3 +1,7 @@
+# note from glistermelon
+i know jack shit about this stuff i just needed to compile this for a personal project
+this fork compiles for me with CMake 3.26.0, generator Visual Studio 17 2022
+
 # LuaCpp
 [![<ORG_NAME>](https://circleci.com/gh/jordanvrtanoski/luacpp/tree/main.svg?style=shield)](https://circleci.com/gh/jordanvrtanoski/luacpp)
 [![Coverage Status](https://coveralls.io/repos/github/jordanvrtanoski/luacpp/badge.svg?branch=main)](https://coveralls.io/github/jordanvrtanoski/luacpp?branch=main)
